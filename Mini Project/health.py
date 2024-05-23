@@ -8,10 +8,10 @@ import string
 
 # Establish MySQL connection
 db_connection = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="shiivrs@9/11/2004",
-    database="dbms"
+    host="your_hostname",
+    user="your_username",
+    password="your_password",
+    database="your_dbname"
 )    # Replace "your_password" with your MySQL password and update the database name if necessary
 cursor = db_connection.cursor()
 
