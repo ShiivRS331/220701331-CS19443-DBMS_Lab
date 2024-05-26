@@ -29,3 +29,34 @@ truncate table patients
 select * from patients 
 
 select * from users
+
+
+-- Trigger to check unique username before insert
+CREATE TRIGGER before_patient_insert
+BEFORE INSERT ON patients
+FOR EACH ROW
+BEGIN
+    DECLARE username_count INT;
+    SELECT COUNT(*) INTO username_count FROM users WHERE username = NEW.username;
+    IF username_count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Username already exists.';
+    END IF;
+END;
+
+-- Trigger to generate report after insert
+CREATE TRIGGER after_patient_insert
+AFTER INSERT ON patients
+FOR EACH ROW
+BEGIN
+    SET @report = CONCAT('Name: ', NEW.name, '\n',
+                         'Age: ', NEW.age, '\n',
+                         'Family History: ', NEW.family_history, '\n',
+                         'Previous Surgeries: ', NEW.surgeries, '\n',
+                         'Allergies: ', NEW.allergies, '\n',
+                         'Symptoms: ', NEW.symptoms, '\n',
+                         'Diagnosis: ', NEW.diagnosis, '\n',
+                         'Tests: ', NEW.tests, '\n',
+                         'Medications: ', NEW.medications);
+    UPDATE patients SET report = @report WHERE id = NEW.id;
+END;
+
