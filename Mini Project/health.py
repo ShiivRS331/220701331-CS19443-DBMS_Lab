@@ -8,10 +8,10 @@ import string
 
 # Establish MySQL connection
 db_connection = mysql.connector.connect(
-    host="your_hostname",
-    user="your_username",
+    host="your_hostName",
+    user="your_userName",
     password="your_password",
-    database="your_dbname"
+    database="your_DB"
 )    # Replace "your_password" with your MySQL password and update the database name if necessary
 cursor = db_connection.cursor()
 
@@ -133,6 +133,7 @@ class ChangeCredentialsWindow(QWidget):
         self.close()
         open_patient_window(new_username)
 
+
 def open_change_credentials_window(username):
     global change_credentials_window
     change_credentials_window = ChangeCredentialsWindow(username)
@@ -197,7 +198,7 @@ class PatientWindow(QWidget):
                                  f"Diagnosis: {patient_data[7]}\n"
                                  f"Tests: {patient_data[8]}\n"
                                  f"Medications: {patient_data[9]}\n"
-                                 f"Report: {patient_data[10]}")
+                                )
             layout.addWidget(report_label)
         else:
             QMessageBox.warning(None, "Error", "Patient data not found.")
@@ -267,6 +268,7 @@ def make_new_entry():
     new_entry_window.setLayout(layout)
     new_entry_window.show()
 
+
 def save_patient_entry(name, age, family_history, surgeries, allergies, symptoms, diagnosis, tests, medications):
     # Use global cursor object
     global cursor
@@ -304,6 +306,7 @@ def update_entry():
 
     update_window.setLayout(layout)
     update_window.show()
+
 
 def fetch_patient_details_by_name(patient_name):
     global cursor, update_patient_window
@@ -381,6 +384,7 @@ def fetch_patient_details_by_name(patient_name):
     else:
         QMessageBox.warning(None, "Error", "Patient with name '{}' not found.".format(patient_name))
 
+
 def save_updated_patient_details(patient_id, name, age, family_history, surgeries, allergies, symptoms, diagnosis, tests, medications):
     global cursor, db_connection
     update_query = "UPDATE patients SET name = %s, age = %s, family_history = %s, surgeries = %s, allergies = %s, symptoms = %s, diagnosis = %s, tests = %s, medications = %s WHERE id = %s"
@@ -388,6 +392,8 @@ def save_updated_patient_details(patient_id, name, age, family_history, surgerie
     db_connection.commit()
 
     QMessageBox.information(None, "Success", "Patient details updated successfully.")
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
