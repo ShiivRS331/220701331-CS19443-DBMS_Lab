@@ -30,6 +30,7 @@ select * from patients
 
 select * from users
 
+select * from users where role='doctor'
 
 -- Trigger to check unique username before insert
 CREATE TRIGGER before_patient_insert
@@ -60,3 +61,21 @@ BEGIN
     UPDATE patients SET report = @report WHERE id = NEW.id;
 END;
 
+CREATE PROCEDURE AddUser (
+    IN input_username VARCHAR(255),
+    IN input_password VARCHAR(255),
+    IN input_role VARCHAR(50)
+)
+BEGIN
+    -- Validate role
+    IF input_role NOT IN ('doctor', 'patient') THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Invalid role. Must be either "doctor" or "patient"';
+    END IF;
+
+    -- Hash the password using SHA2 function
+    INSERT INTO users (username, password, role)
+    VALUES (input_username, SHA2(input_password, 256), input_role);
+END;
+
+CALL AddUser('Yokesh','yokesh123','doctor')
