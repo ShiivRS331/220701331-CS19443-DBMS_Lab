@@ -78,4 +78,4 @@ BEGIN
     VALUES (input_username, SHA2(input_password, 256), input_role);
 END;
 
-CALL AddUser('Yokesh','yokesh123','doctor')
+CALL AddUser('Shiiv','shiiv123','doctor')
