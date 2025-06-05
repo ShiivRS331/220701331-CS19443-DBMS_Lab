@@ -1,4 +1,5 @@
-# Medical Record Management System
+# Dr. Docs
+## Medical Record Management System
 
 This project is a Python application that utilizes the PyQt5 library to create a simple GUI (Graphical User Interface) for managing medical records. The application allows users to log in as either a doctor or a patient, view and update patient records, and make new patient entries.
 
